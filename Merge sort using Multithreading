@@ -1,0 +1,83 @@
+//Talha Khalil_200901003
+#include <iostream>
+#include <thread>
+using namespace std;
+void Merge(int *a, int low, int high, int mid)
+{
+
+    int i, j, k, temp[high - low + 1];
+    i = low;
+    k = 0;
+    j = mid + 1;
+    while (i <= mid && j <= high)
+    {
+        if (a[i] < a[j])
+        {
+            temp[k] = a[i];
+            k++;
+            i++;
+        }
+        else
+        {
+            temp[k] = a[j];
+            k++;
+            j++;
+        }
+    }
+    while (i <= mid)
+    {
+        temp[k] = a[i];
+        k++;
+        i++;
+    }
+    while (j <= high)
+    {
+        temp[k] = a[j];
+        k++;
+        j++;
+    }
+    for (i = low; i <= high; i++)
+    {
+        a[i] = temp[i - low];
+    }
+}
+
+void MergeSort(int *a, int low, int high)
+{
+    int mid;
+    if (low < high)
+    {
+        mid = (low + high) / 2;
+        MergeSort(a, low, mid);
+        MergeSort(a, mid+1, high);
+        Merge(a, low, high, mid);
+    }
+}
+int main()
+{
+    int  x, y;
+
+
+    const int n = 5;          //Taking constant to avoid dynamic array error in threads 
+    
+   
+    int arr[n];
+    for (int i = 0; i < n; i++)
+    {
+        cout << "Enter element " << i + 1 << ": ";
+        cin >> arr[i];
+    }
+    x = (n / 2) - 1;
+    y = n / 2;
+    thread t1(MergeSort, arr, 0, x);                // Passing first half of array
+    thread t2(MergeSort, arr, y, n - 1);    // Passing second half of array
+    t1.join();
+    t2.join();
+    cout << "**Sorted Array****"<<endl;
+    for (int i = 0; i < n; i++)
+    {
+        cout << "-->" << arr[i];
+    }
+    cout<<endl;
+    return 0;
+}
