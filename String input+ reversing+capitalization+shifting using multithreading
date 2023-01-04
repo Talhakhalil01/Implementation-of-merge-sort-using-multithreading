@@ -1,0 +1,81 @@
+//Name:Talha Khalil_200901003
+#include<iostream>
+#include<thread>
+#include<string>
+using namespace std;
+string str;     //Global string
+void Input()
+{
+   try
+   {
+	   cout<<"Enter a string:"<<endl;
+	   getline(cin,str);
+   }
+   catch(const exception e)
+   {
+        cout<<"Error.Exception found in input thread:"<<e.what()<<endl;
+   }
+   cout<<endl<<endl;
+	
+}
+
+void Reverse()
+{
+	cout<<"Reversed string of given string is::: ";
+	int len=str.length();
+
+	for(int i=0;i<len;i++)
+	{
+	cout<<str[len-i-1];
+	}
+         cout<<endl<<endl;
+}
+void Capital()
+{
+      cout<<"Capitalized string of given string is::: ";
+	int len=str.length();
+
+	for(int i=0;i<len;i++)
+	{
+	cout<<(char)toupper(str[i]);
+	}
+      cout<<endl<<endl;
+       
+}
+void Shift()
+{
+	char ch;
+	int val;
+         cout<<"Shifted string of given string is::: ";
+	int len=str.length();
+
+	for(int i=0;i<len;i++)
+	{
+           ch=str[i];       
+           val=ch;
+           val=val+2;
+           ch=val;
+           cout<<ch;
+           
+	}
+      cout<<endl<<endl;
+}
+int main()
+{
+	
+	thread t(Input);  
+	t.join();
+	
+	thread t2(Reverse); 
+	t2.join();
+	 
+	thread t3(Capital);
+	t3.join();
+	    
+	thread t4(Shift);
+	t4.join();
+	
+
+	
+	return 0;
+}
